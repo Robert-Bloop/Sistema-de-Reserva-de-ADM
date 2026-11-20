@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 570" width="1400" height="570" font-family="'Segoe UI', Inter, Roboto, 'Helvetica Neue', Arial, sans-serif" role="img" aria-labelledby="t d">
+<title id="t">Arquitectura del Sistema de Reserva de ADM</title>
+<desc id="d">Docente y personal encargado interactúan con las interfaces HTML, que llaman a funciones de Code.gs en Google Apps Script, que lee y escribe en Google Sheets.</desc>
+<defs>
+<marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2563EB"/></marker>
+<marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748B"/></marker>
+</defs>
+<rect x="1" y="1" width="1398" height="568" rx="18" fill="#F8FBFF" stroke="#D3E2F5" stroke-width="2"/>
+<text x="40" y="44" font-size="22" font-weight="700" fill="#0A1F44">Arquitectura del sistema ADM</text>
+<text x="40" y="64" font-size="13" fill="#5B7DB1">Aplicación web en tres capas: presentación, lógica de servidor y almacenamiento</text>
+<text x="110" y="96" font-size="11.5" font-weight="700" letter-spacing="1.6" fill="#5B7DB1" text-anchor="middle">USUARIOS</text>
+<text x="395" y="96" font-size="11.5" font-weight="700" letter-spacing="1.6" fill="#5B7DB1" text-anchor="middle">CLIENTE · NAVEGADOR</text>
+<text x="835" y="96" font-size="11.5" font-weight="700" letter-spacing="1.6" fill="#5B7DB1" text-anchor="middle">SERVIDOR · GOOGLE APPS SCRIPT</text>
+<text x="1225" y="96" font-size="11.5" font-weight="700" letter-spacing="1.6" fill="#5B7DB1" text-anchor="middle">DATOS · GOOGLE SHEETS</text>
+<rect x="18" y="108" width="184" height="380" rx="14" fill="#F1F5F9" stroke="#D5DEE8"/>
+<rect x="268" y="108" width="254" height="380" rx="14" fill="#E6F0FF" stroke="#BCD5FF"/>
+<rect x="688" y="108" width="294" height="380" rx="14" fill="#0F2A5C"/>
+<rect x="1068" y="108" width="314" height="380" rx="14" fill="#E7F6EC" stroke="#B5E0C2"/>
+<rect x="30" y="148" width="160" height="120" rx="12" fill="#FFFFFF" stroke="#C5D2E0"/>
+<circle cx="110" cy="172" r="11" fill="#2563EB"/><path d="M91 210 a19 19 0 0 1 38 0 z" fill="#2563EB"/>
+<text x="110" y="238" font-size="14.5" font-weight="700" fill="#0A1F44" text-anchor="middle">Docente</text>
+<text x="110" y="256" font-size="11.5" fill="#64748B" text-anchor="middle">Consulta y reserva equipos</text>
+<rect x="280" y="148" width="230" height="120" rx="12" fill="#FFFFFF" stroke="#7AA7F0" stroke-width="1.5"/>
+<rect x="296" y="164" width="30" height="22" rx="4" fill="none" stroke="#2563EB" stroke-width="2"/><path d="M296 171 h30" stroke="#2563EB" stroke-width="2"/>
+<text x="336" y="181" font-family="'DejaVu Sans Mono', Consolas, Menlo, monospace" font-size="15" font-weight="700" fill="#0A1F44">index.html</text>
+<text x="296" y="214" font-size="14" font-weight="600" fill="#2563EB">Vista docente</text>
+<text x="296" y="238" font-size="11.5" fill="#475569">HTML5 · Bootstrap 5.3 · JavaScript</text>
+<line x1="193" y1="198" x2="277" y2="198" stroke="#2563EB" stroke-width="2.2" marker-end="url(#ar)"/>
+<line x1="277" y1="220" x2="193" y2="220" stroke="#64748B" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ad)"/>
+<line x1="513" y1="198" x2="685" y2="198" stroke="#2563EB" stroke-width="2.2" marker-end="url(#ar)"/>
+<line x1="685" y1="220" x2="513" y2="220" stroke="#64748B" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ad)"/>
+<text x="605" y="238" font-size="11" fill="#64748B" text-anchor="middle">respuesta</text>
+<line x1="985" y1="198" x2="1065" y2="198" stroke="#2563EB" stroke-width="2.2" marker-end="url(#ar)"/>
+<line x1="1065" y1="220" x2="985" y2="220" stroke="#64748B" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ad)"/>
+<rect x="30" y="328" width="160" height="120" rx="12" fill="#FFFFFF" stroke="#C5D2E0"/>
+<circle cx="110" cy="352" r="11" fill="#2563EB"/><path d="M91 390 a19 19 0 0 1 38 0 z" fill="#2563EB"/>
+<text x="110" y="418" font-size="14.5" font-weight="700" fill="#0A1F44" text-anchor="middle">Personal encargado</text>
+<text x="110" y="436" font-size="11.5" fill="#64748B" text-anchor="middle">Controla la entrega</text>
+<rect x="280" y="328" width="230" height="120" rx="12" fill="#FFFFFF" stroke="#7AA7F0" stroke-width="1.5"/>
+<rect x="296" y="344" width="30" height="22" rx="4" fill="none" stroke="#2563EB" stroke-width="2"/><path d="M296 351 h30" stroke="#2563EB" stroke-width="2"/>
+<text x="336" y="361" font-family="'DejaVu Sans Mono', Consolas, Menlo, monospace" font-size="15" font-weight="700" fill="#0A1F44">admin.html</text>
+<text x="296" y="394" font-size="14" font-weight="600" fill="#2563EB">Vista administrativa</text>
+<text x="296" y="418" font-size="11.5" fill="#475569">Se abre con  ?vista=admin</text>
+<line x1="193" y1="378" x2="277" y2="378" stroke="#2563EB" stroke-width="2.2" marker-end="url(#ar)"/>
+<line x1="277" y1="400" x2="193" y2="400" stroke="#64748B" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ad)"/>
+<line x1="513" y1="378" x2="685" y2="378" stroke="#2563EB" stroke-width="2.2" marker-end="url(#ar)"/>
+<line x1="685" y1="400" x2="513" y2="400" stroke="#64748B" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ad)"/>
+<text x="605" y="418" font-size="11" fill="#64748B" text-anchor="middle">respuesta</text>
+<line x1="985" y1="378" x2="1065" y2="378" stroke="#2563EB" stroke-width="2.2" marker-end="url(#ar)"/>
+<line x1="1065" y1="400" x2="985" y2="400" stroke="#64748B" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ad)"/>
+<text x="605" y="168" font-family="'DejaVu Sans Mono', Consolas, Menlo, monospace" font-size="11" fill="#0A1F44" text-anchor="middle">obtenerDisponibilidad()</text>
+<text x="605" y="184" font-family="'DejaVu Sans Mono', Consolas, Menlo, monospace" font-size="11" fill="#0A1F44" text-anchor="middle">guardarReserva()</text>
+<text x="605" y="368" font-family="'DejaVu Sans Mono', Consolas, Menlo, monospace" font-size="11" fill="#0A1F44" text-anchor="middle">obtenerReservasDelDia()</text>
+<text x="1025" y="190" font-size="11" fill="#475569" text-anchor="middle">lee / escribe</text>
+<text x="1025" y="370" font-size="11" fill="#475569" text-anchor="middle">lee</text>
+<rect x="539" y="272" width="132" height="26" rx="13" fill="#FFFFFF" stroke="#7AA7F0"/><text x="605" y="289" font-family="'DejaVu Sans Mono', Consolas, Menlo, monospace" font-size="11" font-weight="700" fill="#2563EB" text-anchor="middle">google.script.run</text>
+<text x="706" y="140" font-family="'DejaVu Sans Mono', Consolas, Menlo, monospace" font-size="18" font-weight="700" fill="#FFFFFF">Code.gs</text>
+<text x="706" y="160" font-size="12" fill="#9CC3FF">Lógica del servidor</text>
+<line x1="706" y1="172" x2="964" y2="172" stroke="#38BDF8" stroke-opacity=".5"/>
+<text x="706" y="198" font-family="'DejaVu Sans Mono', Consolas, Menlo, monospace" font-size="12" font-weight="700" fill="#7DD3FC">doGet(e)</text><text x="706" y="215" font-size="11.5" fill="#C9DDF7">Elige la vista: docente o administrativa</text>
+<text x="706" y="244" font-family="'DejaVu Sans Mono', Consolas, Menlo, monospace" font-size="12" font-weight="700" fill="#7DD3FC">formatearFecha(valorFila)</text><text x="706" y="261" font-size="11.5" fill="#C9DDF7">Normaliza las fechas para compararlas</text>
+<text x="706" y="290" font-family="'DejaVu Sans Mono', Consolas, Menlo, monospace" font-size="12" font-weight="700" fill="#7DD3FC">obtenerInventario()</text><text x="706" y="307" font-size="11.5" fill="#C9DDF7">Lee los equipos con estado OPERATIVO</text>
+<text x="706" y="336" font-family="'DejaVu Sans Mono', Consolas, Menlo, monospace" font-size="12" font-weight="700" fill="#7DD3FC">obtenerDisponibilidad(fecha, tramo)</text><text x="706" y="353" font-size="11.5" fill="#C9DDF7">Equipos libres, agrupados por tipo</text>
+<text x="706" y="382" font-family="'DejaVu Sans Mono', Consolas, Menlo, monospace" font-size="12" font-weight="700" fill="#7DD3FC">guardarReserva(datos)</text><text x="706" y="399" font-size="11.5" fill="#C9DDF7">Revalida y registra la reserva</text>
+<text x="706" y="428" font-family="'DejaVu Sans Mono', Consolas, Menlo, monospace" font-size="12" font-weight="700" fill="#7DD3FC">obtenerReservasDelDia(fechaBuscada)</text><text x="706" y="445" font-size="11.5" fill="#C9DDF7">Reservas del día + categoría, por horario</text>
+<rect x="1086" y="126" width="30" height="24" rx="4" fill="#16A34A"/><rect x="1091" y="132" width="20" height="3" fill="#fff"/><rect x="1091" y="138" width="20" height="3" fill="#fff"/><rect x="1091" y="144" width="12" height="3" fill="#fff"/>
+<text x="1126" y="144" font-size="16" font-weight="700" fill="#14532D">Hoja de cálculo</text>
+<rect x="1084" y="164" width="282" height="108" rx="10" fill="#FFFFFF" stroke="#7CC79A"/>
+<rect x="1084" y="164" width="282" height="30" rx="10" fill="#16A34A"/><rect x="1084" y="182" width="282" height="12" fill="#16A34A"/>
+<text x="1100" y="184" font-size="13.5" font-weight="700" fill="#FFFFFF">Pestaña  Inventario</text>
+<text x="1100" y="214" font-size="12.5" fill="#334155">A · ID del equipo</text>
+<text x="1100" y="234" font-size="12.5" fill="#334155">B · Tipo (categoría)</text>
+<text x="1100" y="254" font-size="12.5" fill="#334155">C · Estado  (solo OPERATIVO)</text>
+<rect x="1084" y="284" width="282" height="194" rx="10" fill="#FFFFFF" stroke="#7CC79A"/>
+<rect x="1084" y="284" width="282" height="30" rx="10" fill="#16A34A"/><rect x="1084" y="302" width="282" height="12" fill="#16A34A"/>
+<text x="1100" y="304" font-size="13.5" font-weight="700" fill="#FFFFFF">Pestaña  Reservas</text>
+<text x="1100" y="338.0" font-size="12.5" fill="#334155">A · ID de reserva</text>
+<text x="1100" y="355.5" font-size="12.5" fill="#334155">B · Fecha</text>
+<text x="1100" y="373.0" font-size="12.5" fill="#334155">C · Tramo</text>
+<text x="1100" y="390.5" font-size="12.5" fill="#334155">D · ID ADM</text>
+<text x="1100" y="408.0" font-size="12.5" fill="#334155">E · Profesor</text>
+<text x="1100" y="425.5" font-size="12.5" fill="#334155">F · Curso</text>
+<text x="1100" y="443.0" font-size="12.5" fill="#334155">G · Marca temporal</text>
+<text x="1100" y="460.5" font-size="12.5" fill="#334155">H · Código de cancelación</text>
+<line x1="40" y1="530" x2="90" y2="530" stroke="#2563EB" stroke-width="2.2" marker-end="url(#ar)"/><text x="100" y="534" font-size="12.5" fill="#334155">Solicitud</text>
+<line x1="190" y1="530" x2="240" y2="530" stroke="#64748B" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ad)"/><text x="250" y="534" font-size="12.5" fill="#334155">Respuesta</text>
+<text x="1360" y="534" font-size="12" fill="#5B7DB1" text-anchor="end">Fila superior: flujo docente   ·   Fila inferior: flujo administrativo</text>
+</svg>
