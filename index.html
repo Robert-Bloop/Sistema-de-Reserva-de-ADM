@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Reserva de Aulas Digitales Móviles</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f4f6f9; }
+    .card-adm { cursor: pointer; transition: 0.2s; }
+    .card-adm:hover { transform: scale(1.02); }
+    .selected { border: 2px solid #0d6efd; background-color: #e9f2ff; }
+    #loader { display: none; }
+    optgroup { font-weight: bold; color: #0d6efd; }
+    option { color: #212529; }
+  </style>
+</head>
+<body>
+
+  <div class="container py-5" style="max-width: 650px;">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold text-primary">Reserva de Equipamiento</h2>
+      <p class="text-muted">Selecciona la fecha y el horario para consultar disponibilidad</p>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <form id="reservaForm">
+
+          <!-- PASO 1: FECHA Y HORARIO -->
+          <div class="row mb-3">
+            <div class="col-md-6 mb-3 mb-md-0">
+              <label class="form-label fw-bold">Fecha de Uso</label>
+              <input type="date" class="form-control" id="fecha" required>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Horario</label>
+              <select class="form-select" id="tramo" required>
+                <option value="">Seleccionar horario...</option>
+
+                <!-- TURNO MAÑANA -->
+                <optgroup label="☀️ TURNO MAÑANA">
+                  <option value="Turno Mañana - 07:20 a 08:00">07:20 a 08:00</option>
+                  <option value="Turno Mañana - 08:00 a 08:40">08:00 a 08:40</option>
+                  <option value="Turno Mañana - 09:10 a 09:50">09:10 a 09:50</option>
+                  <option value="Turno Mañana - 09:50 a 10:30">09:50 a 10:30</option>
+                  <option value="Turno Mañana - 10:40 a 11:20">10:40 a 11:20</option>
+                  <option value="Turno Mañana - 11:20 a 12:00">11:20 a 12:00</option>
+                  <option value="Turno Mañana - 12:00 a 12:40">12:00 a 12:40</option>
+                </optgroup>
+
+                <!-- TURNO TARDE -->
+                <optgroup label="🌤️ TURNO TARDE">
+                  <option value="Turno Tarde - 13:30 a 14:10">13:30 a 14:10</option>
+                  <option value="Turno Tarde - 14:20 a 15:00">14:20 a 15:00</option>
+                  <option value="Turno Tarde - 15:10 a 15:50">15:10 a 15:50</option>
+                  <option value="Turno Tarde - 16:00 a 16:40">16:00 a 16:40</option>
+                  <option value="Turno Tarde - 17:20 a 18:00">17:20 a 18:00</option>
+                </optgroup>
+              </select>
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-secondary w-100 mb-3" onclick="consultarDisponibilidad()">
+            🔎 Buscar Disponibles
+          </button>
+
+          <div id="loader" class="text-center text-primary mb-3">
+            <div class="spinner-border spinner-border-sm" role="status"></div>
+            Buscando equipos...
+          </div>
+
+          <!-- PASO 2: EQUIPOS DISPONIBLES -->
+          <div id="resultadosADM" class="mb-3"></div>
+          <input type="hidden" id="adm_seleccionado" required>
+
+          <!-- PASO 3: DATOS DEL DOCENTE -->
+          <div id="datosDocente" style="display:none;">
+            <hr>
+            <h5 class="fw-bold text-primary mb-3">Datos de la Reserva</h5>
+           
+            <div class="mb-3">
+              <label class="form-label fw-bold">Profesor / Docente</label>
+              <input type="text" class="form-control" id="profesor" placeholder="Ej. Juan Pérez" required>
+            </div>
+           
+            <div class="mb-3">
+              <label class="form-label fw-bold">Curso y Materia</label>
+              <input type="text" class="form-control" id="curso" placeholder="Ej. 1.º 2.ª - Informática" required>
+            </div>
+           
+            <button type="submit" class="btn btn-primary w-100 btn-lg">✅ Confirmar Reserva</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <!-- MENSAJE DE ÉXITO -->
+    <div class="alert alert-success d-none" id="mensajeExito">
+      <h4 class="alert-heading">✅ ¡Reserva Confirmada!</h4>
+      <p>El equipo <strong id="res-adm"></strong> ha sido reservado correctamente.</p>
+      <hr>
+      <p class="mb-0">Código de cancelación: <strong id="res-codigo"></strong></p>
+      <p class="small mt-2">Guarda este código por si necesitas anular la reserva.</p>
+      <button class="btn btn-sm btn-outline-success mt-3" onclick="location.reload()">Realizar otra reserva</button>
+    </div>
+
+  </div>
+
+  <script>
+    const hoy = new Date();
+    hoy.setMinutes(hoy.getMinutes() - hoy.getTimezoneOffset());
+    document.getElementById("fecha").min = hoy.toISOString().split("T")[0];
+
+    document.getElementById("fecha").addEventListener("change", limpiarSeleccion);
+    document.getElementById("tramo").addEventListener("change", limpiarSeleccion);
+
+    function limpiarSeleccion() {
+      document.getElementById("resultadosADM").innerHTML = "";
+      document.getElementById("adm_seleccionado").value = "";
+      document.getElementById("datosDocente").style.display = "none";
+    }
+
+    function consultarDisponibilidad() {
+      const fecha = document.getElementById("fecha").value;
+      const tramo = document.getElementById("tramo").value;
+
+      if (!fecha || !tramo) {
+        alert("Por favor selecciona una fecha y un horario.");
+        return;
+      }
+
+      document.getElementById("loader").style.display = "block";
+      document.getElementById("resultadosADM").innerHTML = "";
+      document.getElementById("adm_seleccionado").value = "";
+      document.getElementById("datosDocente").style.display = "none";
+
+      google.script.run
+        .withSuccessHandler(mostrarCarritos)
+        .withFailureHandler(function(error) {
+          document.getElementById("loader").style.display = "none";
+          alert("No se pudo consultar la disponibilidad: " + error.message);
+        })
+        .obtenerDisponibilidad(fecha, tramo);
+    }
+
+    function mostrarCarritos(disponibles) {
+      document.getElementById("loader").style.display = "none";
+      let html = `
+        <label class="form-label fw-bold">Equipos Disponibles</label>
+        <p class="small text-muted">Toca una opción para seleccionarla.</p>
+        <div class="row g-2">
+      `;
+     
+      let hayOpciones = false;
+
+      for (const [tipo, carritos] of Object.entries(disponibles)) {
+        if (carritos.length > 0) {
+          hayOpciones = true;
+          const idLibre = carritos[0];
+          let descripcion = "";
+
+          // Ajuste de descripciones dinámicas
+          if (tipo === "ADM_v5") descripcion = "5 Netbooks";
+          else if (tipo === "ADM_v10") descripcion = "10 Netbooks";
+          else if (tipo === "ADM_v20") descripcion = "20 Netbooks";
+          else descripcion = "Accesorio / Dispositivo"; // Descripción genérica para nuevos elementos
+
+          html += `
+            <div class="col-12">
+              <div class="card card-adm p-3" onclick="seleccionarADM(this, '${idLibre}')">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <strong>${tipo}</strong><br>
+                    <small class="text-muted">${descripcion}</small>
+                  </div>
+                  <span class="badge bg-success">${carritos.length} disponible${carritos.length > 1 ? "s" : ""}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+      }
+     
+      html += "</div>";
+
+      if (!hayOpciones) {
+        html = `
+          <div class="alert alert-danger">
+            ❌ No hay ningún equipo disponible para la fecha y horario seleccionados.
+          </div>
+        `;
+      }
+
+      document.getElementById("resultadosADM").innerHTML = html;
+    }
+
+    function seleccionarADM(elemento, id) {
+      document.querySelectorAll(".card-adm").forEach(function(el) {
+        el.classList.remove("selected");
+      });
+      elemento.classList.add("selected");
+      document.getElementById("adm_seleccionado").value = id;
+      document.getElementById("datosDocente").style.display = "block";
+      document.getElementById("datosDocente").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    document.getElementById("reservaForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+     
+      const admSeleccionado = document.getElementById("adm_seleccionado").value;
+      if (!admSeleccionado) {
+        alert("Debes seleccionar un equipo de la lista.");
+        return;
+      }
+
+      const boton = this.querySelector('button[type="submit"]');
+      boton.disabled = true;
+      boton.innerHTML = "Guardando reserva...";
+
+      const datos = {
+        fecha: document.getElementById("fecha").value,
+        tramo: document.getElementById("tramo").value,
+        id_adm: document.getElementById("adm_seleccionado").value,
+        profesor: document.getElementById("profesor").value.trim(),
+        curso: document.getElementById("curso").value.trim()
+      };
+
+      google.script.run
+        .withSuccessHandler(reservaExitosa)
+        .withFailureHandler(function(err) {
+          alert("Error: " + err.message);
+          boton.disabled = false;
+          boton.innerHTML = "✅ Confirmar Reserva";
+        })
+        .guardarReserva(datos);
+    });
+
+    function reservaExitosa(respuesta) {
+      document.getElementById("reservaForm").parentElement.parentElement.style.display = "none";
+      const msjExito = document.getElementById("mensajeExito");
+      msjExito.classList.remove("d-none");
+      document.getElementById("res-adm").innerText = respuesta.id_adm;
+      document.getElementById("res-codigo").innerText = respuesta.codigoCancelacion;
+    }
+  </script>
+</body>
+</html>
